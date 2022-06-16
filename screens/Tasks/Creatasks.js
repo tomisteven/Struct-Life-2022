@@ -54,7 +54,7 @@ export default function CreateTasks(props) {
                         description: states.description,
                     })
                 })
-                const response = await task.json() 
+                await task.json() 
                 
                 alert("Tarea creada")
                 

@@ -91,7 +91,7 @@ const myComponentTask = React.memo(function TaskList(props) {
   useEffect(() => {
     getTasks()
     
-  } , [])
+  } , [state._tasksState])
 
   
 
