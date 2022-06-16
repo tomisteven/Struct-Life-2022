@@ -1,9 +1,10 @@
 import React, {
     useState,
     useEffect,
+    memo
     
 } from 'react'
-import { Text, View, StyleSheet ,TouchableHighlight, Image, ActivityIndicator, ScrollView, Modal} from 'react-native'
+import { Text, View, StyleSheet ,TouchableHighlight, Image, ActivityIndicator, ScrollView} from 'react-native'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Alert } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
@@ -14,7 +15,7 @@ import DialogInput from 'react-native-dialog-input-custom';
 import confg from "../../congiruracionGlobal"
 
 
-export default function StudyList() {
+const myComponentStudy = React.memo(function StudyList(props) {
   
     const [fontsLoaded] = useFonts({ 
       'Koulen' : require('../../assets/Koulen.ttf')
@@ -46,28 +47,48 @@ export default function StudyList() {
           data: _data.studies,
         })
         setLoading(false)
-        setModalVisibleEdit(false)
+        return _data.studies
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const memoGetStudys = React.useMemo(() => getStudys, [study.data])
 
+    const deleteStudy = async (id) => {
+      try {
+        //alerta en ios
+        Alert.alert(
+          'Eliminar estudio',
+          '¿Estas seguro de eliminar este estudio?',
+          [
+            {
+              text: 'Cancelar',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Eliminar', onPress: async () => {
+              setLoading(true)
+              const study =  await fetch(`${url}/api/studies/deletestudy/${id}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                }
+              })
+              await study.json()
+              setTimeout(() => {
+                setLoading(false)
+              }, 500);
+            }},
+
+          ],
+          {cancelable: false},
+        );
       } catch (error) {
         console.log(error);
       }
     }
 
-    const deleteStudy = async (id) => {
-      const study =  await fetch(`${url}/api/studies/deletestudy/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      })
-      const _data = await study.json()
-      getStudys()
-    }
-
-    const userUrlId = async (id) => {
-      
-    }
 
 
     const updateStudy = async (id, number) => {
@@ -96,8 +117,10 @@ export default function StudyList() {
     //console.log(study);
 
     useEffect(() => {
-        getStudys()
-    }, [])
+      memoGetStudys()
+    }, [
+      study.data
+    ])
 
 
     const styles = StyleSheet.create({
@@ -304,8 +327,7 @@ export default function StudyList() {
                             <Image source={require("../../assets/editar.png")} style={styles.img_delete}/>
                           </TouchableHighlight>
                           <TouchableHighlight style={styles.cont_text_actions} onPress={() => {
-                            setModalVisibleDelete(true);
-
+                            deleteStudy(item._id);
                           } }>
                             <Image source={require("../../assets/eliminar.png")} style={styles.img_delete}/>
                           </TouchableHighlight>
@@ -314,27 +336,6 @@ export default function StudyList() {
 
                       </View>
                     
-                      <Modal visible={isModalVisibleDelete}>
-                      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontSize: 20, fontFamily: 'Rampart', fontWeight: "400"}}>
-                          ¿Estas seguro de eliminar este estudio?
-                        </Text>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%'}}>
-                          <TouchableHighlight onPress={() => {
-                            setModalVisibleDelete(!isModalVisibleDelete)
-                          }}>
-                            <Text style={{fontSize: 20, fontFamily: 'Rampart', fontWeight: "400", color: '#0066FF'}}>
-                              Cancelar
-                            </Text>
-                          </TouchableHighlight>
-                          <TouchableHighlight onPress={() => console.log(item._id)}>
-                            <Text style={{fontSize: 20, fontFamily: 'Rampart', fontWeight: "400", color: '#0066FF'}}>
-                              Eliminar
-                            </Text>
-                          </TouchableHighlight> 
-                        </View>
-                      </View>
-                    </Modal>
 
                     </View>
 
@@ -349,4 +350,8 @@ export default function StudyList() {
 
     </>
   )
-}
+})
+
+export default myComponentStudy;
+
+                     
