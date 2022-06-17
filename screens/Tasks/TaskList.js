@@ -98,125 +98,125 @@ const myComponentTask = React.memo(function TaskList(props) {
   //estilos
   const styles = StyleSheet.create({
     container: {
-      fontSize: 20,
-      color: '#000',
-      marginTop: 20,
-      marginLeft: 15,
-      marginRight: 15,
-      marginBottom: 5,
-      padding: 10,
-      borderRadius: 10,
-      backgroundColor: '#fff',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+        fontSize: 18,
+        color: '#000',
+        marginTop: 20,
+        marginLeft: 15,
+        marginRight: 15,
+        marginBottom: 5,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
 
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 1,
-        height: 3,
-      },
-      shadowOpacity: 0.55,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 1,
+          height: 3,
+        },
+        shadowOpacity: 0.55,
         shadowRadius: 5.50,
         elevation: 3,
-      
-    },
-    loader:{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: '40%'
-    },
-    
-    textName :{
-      fontSize: 15,
-      fontWeight: 'bold',
-      width: '67%',
-      marginLeft: 13,
-      marginBottom: 7,
-      fontFamily:'PoiretOne',
-    },
-    textDate: {
-      fontSize: 20,
-      marginLeft: 13,
-      marginBottom: 7,
-      width: '65%',
-    },
-    cont_name_view:{
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      
-    },
-    cont_userlist:{
-      backgroundColor: "#fff",
-      height: "auto",
-      borderRadius: 20,
-      marginTop: 10,
-      marginLeft : 10,
-      marginRight: 10,
-      paddingBottom: 20,
-      marginBottom: 80,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0.3,
-        height: 2,
+
       },
-      shadowOpacity: 0.50,
+      loader: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: '40%'
+      },
+
+      textName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        width: '100%',
+        marginLeft: 13,
+        marginBottom: 7,
+        fontFamily: 'PoiretOne',
+      },
+      textDate: {
+        fontSize: 17,
+        marginLeft: 13,
+        marginBottom: 7,
+        width: '100%',
+      },
+      cont_name_view: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#fff3',
+      },
+      cont_userlist: {
+        backgroundColor: "#fff",
+        height: "auto",
+        borderRadius: 20,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
+        paddingBottom: 20,
+        marginBottom: 80,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0.5,
+          height: 4,
+        },
+        shadowOpacity: 0.50,
         shadowRadius: 4.50,
         elevation: 3,
-  },
-    noVisible:{
-      display: 'none'
-    },
-    textPresentation:{
-      marginTop: 50,
-      marginBottom: 20,
-      
-      fontSize: 40,
-      textAlign: 'center',
-      fontFamily:"Rampart",
-    
-    },
-    dump:{
-      marginTop: 10,
-    },
-    ok :{
-      marginTop: 15,
-    }
-     ,
-     contTask:{
-      marginTop: 8,
-      marginBottom: 15,
-      marginLeft: 175,
-      
-     },
-     newActions: {
-       justifyContent: 'space-around',
-       flexDirection: 'row',
-       
-       marginBottom: 20,
-       width: '85%',
-       height: 80,
-       marginLeft: '7%',
-       borderRadius: 30,
-       backgroundColor: '#fff',
-       shadowColor: "#000",
-            shadowOffset: {
-              width: 0.3,
-              height: 2,
-            },
-            shadowOpacity: 0.50,
-              shadowRadius: 4.50,
-              elevation: 3,
+      },
+      noVisible: {
+        display: 'none'
+      },
+      textPresentation: {
+        marginTop: 50,
+        marginBottom: 20,
+
+        fontSize: 35,
+        textAlign: 'center',
+        fontFamily: "Rampart",
+
+      },
+      dump: {
+        marginTop: 10,
+      },
+      ok: {
+        marginTop: 15,
+      },
+
+      newActions: {
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+
+        marginBottom: 20,
+        width: '85%',
+        height: 80,
+        marginLeft: '7%',
+        borderRadius: 30,
+        backgroundColor: '#fff',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0.3,
+          height: 2,
+        },
+        shadowOpacity: 0.50,
+        shadowRadius: 4.50,
+        elevation: 3,
       },
       refreshCont: {
         marginTop: 8,
-        
+
       },
       newTask: {
-       opacity: 0.6,
+        opacity: 0.6,
+        marginLeft: 'auto',
+        marginRight: 'auto',
       },
+      contTask: {
+        width: '100%',
+
+      }
   })
 
 
@@ -247,7 +247,7 @@ const myComponentTask = React.memo(function TaskList(props) {
               
                 <View  style={styles.container} key={item._id}>
 
-                  <View>
+                  
                     <View style={styles.cont_name_view}>
                       {
                         item.completed ?
@@ -260,17 +260,33 @@ const myComponentTask = React.memo(function TaskList(props) {
                     <View style={styles.cont_name_view}>
                       <Image style={styles.point} source={require("../../assets/arrow.png")} /><Text style={styles.textName}>{item.description}</Text>
                     </View>
-                  </View>
+                  
 
                 <View style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  width: '25%',
+                  justifyContent: 'space-around',
+                  width: '100%',
+                  marginTop: 7,
                   
                 }}>
                     <View style={{
                       
-                      backgroundColor: "transparent",
+                      backgroundColor: "#ffcfd6",
+                      width: '100%',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                      alignItems: 'center',
+                      borderRadius: 20,
+                      
+                      paddingBottom: 5,
+                      shadowOffset: {
+                        width: 0.1,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.40,
+                      shadowRadius: 4.50,
+                      elevation: 3,
                     }}>
                       <TouchableHighlight  onPress={() => {taskCompleted(item._id)} }>  
                         {
@@ -280,11 +296,12 @@ const myComponentTask = React.memo(function TaskList(props) {
                           <Image style={styles.ok} source={require("../../assets/notOk.png")} />
                         }
                       </TouchableHighlight>
-                    </View>
+                    
                     <View>
                       <TouchableHighlight  onPress={() => deleteUser(item._id) }>  
                           <Image style={styles.dump}  source={require("../../assets/eliminar.png")} />
                       </TouchableHighlight>
+                    </View>
                     </View>
                 </View>
                 
