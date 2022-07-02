@@ -4,7 +4,7 @@ import { Text, View, StyleSheet ,TouchableHighlight, Image } from 'react-native'
 import {
     useFonts
   } from '@expo-google-fonts/inter';
-
+  import LinearGradient from 'react-native-linear-gradient';
 export default function Inicio(props) {
 
 
@@ -139,7 +139,13 @@ export default function Inicio(props) {
             fontFamily: 'Rampart',
             fontSize: 30,
             color: "#FF95A1",
-        }
+        },
+        linearGradient: {
+            flex: 1,
+            paddingLeft: 15,
+            paddingRight: 15,
+            borderRadius: 5
+          }
     
     
     }) 
@@ -154,7 +160,7 @@ export default function Inicio(props) {
                 </Text>
             </View>
             <View style={styles.cont_userlist}>
-
+            
                 <View style={styles.container_icons}>
                     <Text style={styles.text_userlist}>
                         Tareas
@@ -163,6 +169,7 @@ export default function Inicio(props) {
                         <Image style={styles.image_arrow}  source={require("../assets/arrow2.png")} />
                       </TouchableHighlight>
                 </View>
+                
                 <View style={styles.container_icons}>
                     <Text style={styles.text_userlist}>
                         Turnos
@@ -217,7 +224,7 @@ export default function Inicio(props) {
                 <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Configuración")} }>
                     <Image style={styles.image_menu}  source={require("../assets/metas.png")} />
                 </TouchableHighlight>
-                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Configuración")} }>
+                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear idea")} }>
                     <Image style={styles.image_menu}  source={require("../assets/ideas.png")} />
                 </TouchableHighlight>
             </View>

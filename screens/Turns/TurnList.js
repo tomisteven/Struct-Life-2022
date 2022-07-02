@@ -5,22 +5,26 @@ import { StyleSheet, Text, View,ScrollView, TouchableHighlight, Image, ActivityI
 import {
   useFonts
 } from '@expo-google-fonts/inter';
-import TimeAgo from 'react-native-timeago';
+
 import moment from 'moment';
 import {es} from 'moment/locale/es';
-import confg from "../congiruracionGlobal"
+import confg from "../../congiruracionGlobal"
 
 
 const myComponent = React.memo(function TurnList(props) {
   let [fontsLoaded2] = useFonts({
-    'Osward': require('../assets/Oswald-VariableFont_wght.ttf')
+    'Osward': require('../../assets/Oswald-VariableFont_wght.ttf')
     
+  });
+  const [fontsLoaded] = useFonts({ 
+    'Koulen' : require('../../assets/Koulen.ttf'),
+    'KottaOne': require('../../assets/KottaOne-Regular.ttf'),
   });
 
   moment().locale(es);
 
   const [state, setState] = useState({
-    _tasksState: [],
+    _turnState: [],
     loader: true
   })
   
@@ -37,7 +41,7 @@ const myComponent = React.memo(function TurnList(props) {
     })
     const turnsJson = await turns.json()
     setState({
-      _tasksState: turnsJson,
+      _turnState: turnsJson,
       loader: false
     })
     
@@ -53,14 +57,14 @@ const myComponent = React.memo(function TurnList(props) {
   }
 
   const turnCompleted = async (id) => {
-    const task = await fetch(`${url}/api/turns/completeturn/${id}`, {
+    const turn = await fetch(`${url}/api/turns/completeturn/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
     })
-    if (task.status === 200) {
+    if (turn.status === 200) {
       getTurns()
     }
   }
@@ -69,13 +73,13 @@ const myComponent = React.memo(function TurnList(props) {
       ...state,
       loader: true
     })
-    const task = await fetch(`${url}/api/turns/deleteturn/${id}`, {
+    const turn = await fetch(`${url}/api/turns/deleteturn/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       }
     })
-     if (task.status === 200) {
+     if (turn.status === 200) {
       getTurns()
     }
 
@@ -101,46 +105,7 @@ const styles = StyleSheet.create({
     
 
   },
-  container_list_items : {
-    flex: 2,
-    flexDirection: "column",
-    
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    margin: 10,
-    width: "90%",
-    height: "auto",
-    padding: 10,
-    shadowColor: "#000",
-      shadowOffset: {
-        width: 0.3,
-        height: 2,
-      },
-      shadowOpacity: 2.50,
-        shadowRadius: 4.50,
-        elevation: 3,
-
-  }
   
-  ,
-  text_list_item : {
-    fontSize: 20,
-    fontFamily: 'Osward',
-    fontWeight: 'bold',
-    marginBottom: 10,
-    marginLeft: 20,
-  },
-
-  text_list_item_date : {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: "#000",
-    marginBottom: 15,
-    fontFamily:'Rampart',
-    textAlign: 'center',
-  },
-
-
 
   text_list:{
     flex: 1,
@@ -171,64 +136,6 @@ const styles = StyleSheet.create({
 
   }
   ,
-  contTurnIcons:{
-    flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginBottom: 10,
-
-  },
-  
- 
-  
-  contButtoncomplete:{
-    backgroundColor: "#00C00B",
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    marginBottom: 10,
-    paddingBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 22,
-  },
-  contButtonIncomplete:{
-    backgroundColor: "#FF0000",
-    marginBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 22,
-  },
-  contButtonEliminar:{
-    backgroundColor: "#0095FF",
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 22,
-  }
-  ,
-  buttonComplete:{
-    color: "#fff",
-    fontFamily: 'Osward',
-    fontSize: 16,
-    letterSpacing: 1,
-  }
-  , textComplete: {
-    fontFamily: 'Osward',
-    color: "#fff",
-    fontSize: 16,
-    letterSpacing: 1,
-  },
   ListaTurns:{
     flex: 1,
     flexDirection: 'column',
@@ -253,43 +160,150 @@ const styles = StyleSheet.create({
     shadowRadius: 4.50,
     elevation: 3,
   },
-  point:{
-    width: 50,
-    height: 50,
+
+  /* item de turno */
+  container_card_turn : {
+    flex: 2,
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    margin: 10,
+    width: "90%",
+    height: "auto",
+    padding: 10,
+    shadowColor: "#000",
+      shadowOffset: {
+        width: 0.3,
+        height: 2,
+      },
+      shadowOpacity: 2.50,
+        shadowRadius: 4.50,
+        elevation: 3,
   }
   ,
-  point2:{
-    width: 34,
-    height: 34,
-    marginLeft: 10,
-    marginRight: 5,
+  titles_container_turns:{
+    width: "100%",
+    height: 40,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 10,
   },
-  contTime: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
-    
-
-  },
-  line:{
-    
-    alignItems: 'flex-start',
-    margin: 9,
-    alignContent: 'flex-start',
-    justifyContent: 'flex-start',
-
-    
-    height: 2,
-    backgroundColor: "#000",
-  },
-  textDate: {
-    fontFamily: 'Rampart',
-    fontSize: 17,
+  date_info_turn:{
+    backgroundColor: "#FFD78A",
+    paddingTop: 5,
     paddingLeft: 10,
     paddingRight: 10,
-  }
+    marginBottom: 7,
+    borderRadius: 13,
+    width: "45%",
+    
+  },
+  text_date_turn:{
+    fontSize: 18,
+    textAlign: "center",
+    fontFamily: "KottaOne",
+  },
+  hour_info_turn:{
+    backgroundColor: "#BCDBFF",
+    paddingBottom: 5,
+    paddingTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 7,
+    borderRadius: 13,
+    width: "45%",
+  },
+  text_hour_turn:{
+    paddingTop: 2,
+    fontSize: 16,
+    textAlign: "center",
+    fontFamily: "KottaOne"
+  },
+  body_container_turns:{
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+  },
+  img_container_turn: {
+    width: "25%",
+    
+  },
+  image_time:{
+    borderRadius: 15,
+    width: 85,
+    height: 85,
+  },
+  img_delete_turn:{
+    width: "10%",
+    height: "auto",
+    display: "flex",
+    justifyContent: "flex-end",
+    
 
+  },
+  img_delete:{
+    width: 33,
+    height: 33,
+    borderRadius: 5,
+  },
+  info_container_turn: {
+    width: "50%",
+    marginLeft: "4%",
+    marginRight: "4%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
 
+  },
+  title_info_turn:{
+    fontSize: 18,
+    fontFamily: "Osward", 
+    fontWeight: "bold",
+    flexWrap: "nowrap",
+  },
+  title_info_turn2:{
+    fontSize: 15,
+    fontFamily: "Osward", 
+    fontWeight: "bold",
+    flexWrap: "nowrap",
+  },
+  description_info_turn:{
+    fontSize: 18,
+    fontFamily: "KottaOne",
+    marginTop: 4,
+  },
+  button_complete_turn:{
+    width: "100%",
+    height: "auto",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#009846",
+    borderRadius: 10,
+    paddingBottom: 3,
+    paddingTop: 3,
+    marginTop: 10,
+  },
+  button_pendiente_turn:{
+    width: "100%",
+    height: "auto",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F26273",
+    borderRadius: 10,
+    paddingBottom: 3,
+    paddingTop: 3,
+    marginTop: 10,
+  },
+  text_complete_turn:{
+    fontSize: 15,
+    fontFamily: "KottaOne",
+    color: "#fff",
+    letterSpacing: 1,
+  },
 })
 
   return (
@@ -309,20 +323,74 @@ const styles = StyleSheet.create({
         <Text style={styles.text_list}>Lista de <Text style={styles.textTurn}>Turnos</Text></Text>
           <View style={styles.ListaTurns}>
           {
-            state._tasksState > 0 ?
+            state._turnState > 0 ?
             (
               <>
               <Text>No hay turnos</Text>
-              <Image style={styles.image} source={require("../assets/empty.png")} />
+              <Image style={styles.image} source={require("../../assets/empty.png")} />
               
               </>
             ):
 
-              state._tasksState.map(item => {
+              state._turnState.map(item => {
                 return (
-                  <View key={item._id} style={styles.container_list_items}>
-                
-                  <View style={styles.container_list_items_item}>
+                  <View key={item._id} style={styles.container_card_turn}>
+                    <View style={styles.titles_container_turns}>
+                      <View style={styles.date_info_turn}>
+                        <Text style={styles.text_date_turn}>{parseDate(item.Date)}</Text>
+                      </View>
+                      <View style={styles.hour_info_turn}>
+                        <Text style={styles.text_hour_turn}>A las.. {item.TurnTime}</Text>  
+                      </View>
+                    </View>
+                    <View style={styles.body_container_turns}>
+                      <View style={styles.img_container_turn}>
+                        <Image style={styles.image_time} source={require("../../assets/img_time.png")} />
+                      </View>
+                      <View style={styles.info_container_turn}>
+                        <Text style={item.title.length < 12 ? styles.title_info_turn : styles.title_info_turn2}>• {item.title}</Text>
+                        <Text style={styles.description_info_turn}>• {item.description}</Text>
+                        <View style={item.completed ? styles.button_complete_turn : styles.button_pendiente_turn }>
+                          <Text onPress={() => turnCompleted(item._id)} style={styles.text_complete_turn} >{
+                            item.completed ? "Completado" : "Pendiente"
+                          }</Text>
+                        </View>
+                      </View>
+                      <View style={styles.img_delete_turn}>
+                      <Text onPress={() => deleteTurn(item._id)} style={styles.buttonComplete}>
+                        <Image style={styles.img_delete} source={require("../../assets/img_delete.png")} />
+                      </Text>
+                      </View>
+                    </View>
+                </View>)
+              })
+        }
+          </View>
+
+    </View>
+    }
+    </ScrollView>
+    <TouchableHighlight underlayColor={"transparent"} style={styles.contTurn} onPress={() => props.navigation.navigate('crear turnos')}>
+      <Image style={styles.newTurn}  source={require("../../assets/buttonTurn.png")} />
+    </TouchableHighlight>
+</>
+
+    
+    
+  )
+})
+
+
+
+
+export default myComponent;
+
+
+
+
+
+
+/* <View style={styles.container_list_items_item}>
                     <Text style={styles.text_list_item_date}>{parseDate(item.Date)}</Text>
                     
                       <View style={styles.contTurnIcons}>
@@ -365,26 +433,4 @@ const styles = StyleSheet.create({
                         <View style={styles.contButtonEliminar}>
                           <Text onPress={() => deleteTurn(item._id)} style={styles.buttonComplete}>  Eliminar  </Text>
                         </View>
-                  </View>
-                </View>)
-              })
-        }
-          </View>
-
-    </View>
-    }
-    </ScrollView>
-    <TouchableHighlight underlayColor={"transparent"} style={styles.contTurn} onPress={() => props.navigation.navigate('crear turnos')}>
-      <Image style={styles.newTurn}  source={require("../assets/buttonTurn.png")} />
-    </TouchableHighlight>
-</>
-
-    
-    
-  )
-})
-
-
-
-
-export default myComponent;
+                  </View> */

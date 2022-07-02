@@ -5,10 +5,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import StudyList from './screens/Study/StudyList';
 import CreateTasks from './screens/Tasks/Creatasks';
-import CreateTurns from './screens/CreateTurn';
+import CreateTurns from './screens/Turns/CreateTurn';
 import Inicio from './screens/Inicio';
-import TurnList from './screens/TurnList';
+import TurnList from './screens/Turns/TurnList';
 import TaskList from './screens/Tasks/TaskList';
+import CreateIdea from './screens/Ideas/CreateIdea';
 
  
 
@@ -31,6 +32,10 @@ function RoutesCrud() {
       <Stack.Screen name="crear turnos"  style={styles.container} options={{
           headerShown: false,
       }}  component={CreateTurns} />
+      
+      <Stack.Screen name="crear idea"  style={styles.container} options={{
+          headerShown: false,
+      }}  component={CreateIdea} />
       
       <Stack.Screen name="Lista de turnos"  style={styles.container} options={{
           headerShown: false,

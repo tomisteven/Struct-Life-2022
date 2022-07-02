@@ -5389,10 +5389,10 @@
     "react-native-ratings" "8.0.4"
     "react-native-size-matters" "^0.3.1"
 
-"react-native-linear-gradient@^2.5.6":
-  "integrity" "sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg=="
-  "resolved" "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz"
-  "version" "2.5.6"
+"react-native-linear-gradient@^2.6.1":
+  "integrity" "sha512-Ve/jyN90qjQXkoNGWHqZWSkW0anLmT3YrKuBqzASo8otIZsvpMT6MrxIc/BMzWFqgrwJYKbcyVuhBEJdlkc0SA=="
+  "resolved" "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.6.1.tgz"
+  "version" "2.6.1"
 
 "react-native-progress@^5.0.0":
   "integrity" "sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A=="

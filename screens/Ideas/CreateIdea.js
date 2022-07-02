@@ -1,91 +1,58 @@
-import React, {
-    useState
-} from 'react'
-import { View, Button, StyleSheet, TextInput, ScrollView,Text, Image, ImageBackground, ActivityIndicator} from 'react-native'
+import React, {useState} from 'react'
+import { View, Button, StyleSheet, TextInput, ScrollView,Text, Image, ImageBackground, ActivityIndicator, TouchableHighlight} from 'react-native'
+import confg from '../../congiruracionGlobal'
 
-import {
-    useFonts
-  } from '@expo-google-fonts/inter';
-  import confg from "../../congiruracionGlobal"
-  
-import { TouchableHighlight } from 'react-native';
+const CreateIdea = (props) => {
+
+    const {url} = confg
 
 
-export default function CreateTasks(props) {
-
-    let [fontsLoaded] = useFonts({
-        Rampart: require('../../assets/RampartOne-Regular.ttf')
-      });
-        let [fontsLoaded2] = useFonts({
-            
-        PoiretOne: require('../../assets/PoiretOne-Regular.ttf')
-            
-        });
-
-        
-
-    const [states, setName] = useState({
+    const [idea, setIdea] = useState({
         title: '',
         description: ''
     })
     const [isLoading, setIsLoading] = useState(false);
-    
-    const {url} = confg
-    
+
     const handleTextChange = (key, value) => {
-        setName({
-            ...states, [key]: value 
+        setIdea({
+            ...idea, [key]: value 
         })
+        console.log(idea);
     }
 
-    const createNewUser = async () => {
-
+    const createNewIdea = async () => {
+        try {
+            
+        const _idea = await fetch(url + "/api/ideas/newidea", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: idea.title,
+                description: idea.description,
+            })
+        })
+            await _idea.json()
+            alert("Idea creada")
+            props.navigation.navigate('Lista de turnos')
         
-        if(states.title === "" || states.description === ""){
-            alert("Debes completar todos los campos")
+            
+        } catch (error) {
+            console.log(error);
         }
-        else{
-            try {
-                setIsLoading(true);
-                const task = await fetch(url + "/api/tasks/newtask", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: states.title,
-                        description: states.description,
-                    })
-                })
-                await task.json() 
-                
-                setIsLoading(false);
-                
-                
-                props.navigation.navigate('Lista de tareas')
-
-                
-                
-            } catch (error) {
-                alert("Error al crear el usuario")
-                console.log(error)
-            }
-        
-        
-        }
-
     }
+
     const clearInputs = () => {
-        setTurn({
-            ...turn,
-            title: "",
-            description: "",
-            TurnDate: "",
-            TurnTime: ""
+        setIdea({
+            title: '',
+            description: ''
         })
     }
 
-     const styles = StyleSheet.create({
+    const image = "../../assets/backidea.jpg"
+
+    const styles = StyleSheet.create({
         container : {
             flex: 1,
             height: "100%",
@@ -200,7 +167,7 @@ export default function CreateTasks(props) {
         },
         cont_buttons_actions: {
             width: '100%',
-            height: '35%',
+            height: '45%',
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'flex-end',
@@ -232,9 +199,7 @@ export default function CreateTasks(props) {
     
     
     
-    }) 
-
-    const image = "../../assets/backtask.jpg"
+    })   
 
   return (
     <View style={styles.container}>
@@ -249,21 +214,21 @@ export default function CreateTasks(props) {
                     height: '100%',
                 }} > 
                     <View style={styles.turns_container_title}>
-                        <Text style={styles.title_turns}>Crear Tarea..</Text> 
+                        <Text style={styles.title_turns}>Crear Idea..</Text> 
                     </View>
                     <View style={styles.cont_input_title}>
                         <Image source={require('../../assets/title.png')} style={styles.icon_description} />
-                        <TextInput style={styles.input_title}  placeholder="Titulo" placeholderTextColor={"#9E9E9E"} onChangeText={ (value) =>handleTextChange("title", value)} value={states.title} />
+                        <TextInput style={styles.input_title}  placeholder="Titulo" placeholderTextColor={"#9E9E9E"} onChangeText={ (value) =>handleTextChange("title", value)} value={idea.title} />
                     </View>
                     <View style={styles.cont_input_description}>
                         <Image source={require('../../assets/title.png')} style={styles.icon_description} />
-                        <TextInput style={styles.input_description} placeholderTextColor={"#9E9E9E"}  placeholder="Descripcion" onChangeText={ (value) =>handleTextChange("description", value)} value={states.description} />
+                        <TextInput style={styles.input_description} placeholderTextColor={"#9E9E9E"}  placeholder="Descripcion" onChangeText={ (value) =>handleTextChange("description", value)} value={idea.description} />
                     </View>
                     <View style={styles.cont_buttons_actions}>
                         <TouchableHighlight style={styles.button_back} onPress={() => props.navigation.navigate('Lista de turnos')}>
                             <Image source={require('../../assets/goback.png')} style={styles.img_back} />
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.button_send} onPress={createNewUser}>
+                        <TouchableHighlight style={styles.button_send} onPress={createNewIdea}>
                             <Image source={require('../../assets/send.png')} style={styles.img_send} />
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.button_clear} onPress={clearInputs}>
@@ -275,6 +240,7 @@ export default function CreateTasks(props) {
 
         
     </View> 
-  
   )
 }
+
+export default CreateIdea

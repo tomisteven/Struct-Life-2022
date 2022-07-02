@@ -1,17 +1,13 @@
 import React, {
     useState,
     useEffect,
-    memo
-    
 } from 'react'
 import { Text, View, StyleSheet ,TouchableHighlight, Image, ActivityIndicator, ScrollView} from 'react-native'
-import AwesomeAlert from 'react-native-awesome-alerts';
 import { Alert } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import {
   useFonts
 } from '@expo-google-fonts/inter';
-import DialogInput from 'react-native-dialog-input-custom';
 import confg from "../../congiruracionGlobal"
 
 
@@ -29,8 +25,6 @@ const myComponentStudy = React.memo(function StudyList(props) {
         data: [],
     })
     const [isLoading, setLoading] = useState(true)
-    const [isModalVisibleEdit, setModalVisibleEdit] = useState(false)
-    const [isModalVisibleDelete, setModalVisibleDelete] = useState(false)
 
     const getStudys = async () => {
       try {
@@ -90,9 +84,9 @@ const myComponentStudy = React.memo(function StudyList(props) {
     }
 
 
-
-    const updateStudy = async (id, number) => {
+    const editPorcent_5 = async (id, number) => {
       try {
+        setLoading(true)
         const study =  await fetch(`${url}/api/studies/editstudy/${id}`, {
           method: 'PUT',
           headers: {
@@ -101,25 +95,25 @@ const myComponentStudy = React.memo(function StudyList(props) {
           },
           body: JSON.stringify({
             porcentajeAvance: number
-          })
-        })
-        const saveed = await study.json()
-        
+        }
+        )})
+        await study.json()
+        setLoading(false)
         getStudys()
-        console.log(id, number);
-        
-      } catch (error) {
+
+      }
+      catch (error) {
         console.log(error);
       }
+
+
     }
 
-
-    //console.log(study);
 
     useEffect(() => {
       memoGetStudys()
     }, [
-      study.data
+      study
     ])
 
 
@@ -321,13 +315,21 @@ const myComponentStudy = React.memo(function StudyList(props) {
                             <Text style={styles.item_study_porcentaje}>{item.porcentajeAvance}%</Text>
                         </View>
                         <View style={styles.actions}>
-                          <TouchableHighlight style={styles.cont_text_actions} onPress={() => {
-                            setModalVisibleEdit(true);
+                        
+                          <TouchableHighlight underlayColor={"transparent"} style={styles.cont_text_actions} onPress={() => {
+                            editPorcent_5(item._id, item.porcentajeAvance-5);
                           } }>
-                            <Image source={require("../../assets/editar.png")} style={styles.img_delete}/>
+                            <Image source={require("../../assets/bajar.png")} style={styles.img_delete}/>
                           </TouchableHighlight>
-                          <TouchableHighlight style={styles.cont_text_actions} onPress={() => {
+                          <TouchableHighlight underlayColor={"transparent"} style={styles.cont_text_actions} onPress={() => {
+                            editPorcent_5(item._id, item.porcentajeAvance+5);
+                          } }>
+                            <Image source={require("../../assets/subir.png")} style={styles.img_delete}/>
+                          </TouchableHighlight>
+
+                          <TouchableHighlight underlayColor={"transparent"} style={styles.cont_text_actions} onPress={() => {
                             deleteStudy(item._id);
+                            
                           } }>
                             <Image source={require("../../assets/eliminar.png")} style={styles.img_delete}/>
                           </TouchableHighlight>
