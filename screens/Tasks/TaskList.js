@@ -1,6 +1,6 @@
 import React, {useEffect, useState, memo} from 'react'
 import { StyleSheet, Text, View, StatusBar,ScrollView, Image, ActivityIndicator, TouchableHighlight } from 'react-native'
-
+import Panel from '../Panel';
 import {
   useFonts
 } from '@expo-google-fonts/inter';
@@ -10,14 +10,10 @@ import { Alert } from 'react-native';
 
 
 const myComponentTask = React.memo(function TaskList(props) {
-
-  
   const [state, setState] = useState({
     _tasksState: []
   })
   const [isLoading, setIsLoading] = useState(true);
-  
-  
   
   let [fontsLoaded] = useFonts({
     'Rampart': require('../../assets/RampartOne-Regular.ttf'),
@@ -79,7 +75,7 @@ const myComponentTask = React.memo(function TaskList(props) {
       })
       const _data = await task.json()
       setState({
-        _tasksState: _data,
+        _tasksState: _data
       })
       setIsLoading(false)
     }
@@ -117,16 +113,16 @@ const myComponentTask = React.memo(function TaskList(props) {
 
   //estilos
   const styles = StyleSheet.create({
-    container: {
+    container1: {
         fontSize: 18,
         color: '#000',
         marginTop: 12,
         marginLeft: 8,
         marginRight: 8,
         
-        padding: 12,
+        padding: 15,
         borderRadius: 13,
-        backgroundColor: '#fff',
+        backgroundColor: '#F3D9D9',
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -139,7 +135,32 @@ const myComponentTask = React.memo(function TaskList(props) {
         shadowOpacity: 0.55,
         shadowRadius: 5.50,
         elevation: 3,
-
+        
+      },
+      container2: {
+         
+          fontSize: 18,
+          color: '#000',
+          marginTop: 12,
+          marginLeft: 8,
+          marginRight: 8,
+          padding: 12,
+          borderRadius: 13,
+          backgroundColor: '#E4EEE0',
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+  
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 1,
+            height: 3,
+          },
+          shadowOpacity: 0.55,
+          shadowRadius: 5.50,
+          elevation: 3,
+  
+        
       },
       loader: {
         flex: 1,
@@ -149,7 +170,7 @@ const myComponentTask = React.memo(function TaskList(props) {
       },
 
       textName: {
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
         width: '100%',
         marginLeft: 13,
@@ -157,7 +178,7 @@ const myComponentTask = React.memo(function TaskList(props) {
         fontFamily: 'PoiretOne',
       },
       textDate: {
-        fontSize: 19,
+        fontSize: 18,
         marginLeft: 13,
         marginBottom: 7,
         width: '100%',
@@ -166,7 +187,7 @@ const myComponentTask = React.memo(function TaskList(props) {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#fff3',
+        
       },
       cont_userlist: {
         backgroundColor: "#fff",
@@ -235,8 +256,68 @@ const myComponentTask = React.memo(function TaskList(props) {
         marginBottom: 15,
       },
       contTask: {
-        width: '100%',
+        marginTop: 20,
+        width: '25%',
 
+      }
+      ,
+      cont_actions_buttons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom:15,
+        marginTop: 20,
+        width: '95%',
+        
+        borderRadius: 30,
+        height: 90,
+        backgroundColor: '#fff',
+
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0.3,
+          height: 2,
+        },
+        shadowOpacity: 0.50,
+        shadowRadius: 4.50,
+        elevation: 3,
+      },
+      container_task_incomplete:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '35%',
+        height: 70,
+        padding: 5,
+        borderRadius: 20,
+        backgroundColor : '#FF9393',
+        marginRight: 'auto',
+        
+      }
+      ,
+      container_task_complete:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '35%',
+        height: 70,
+        padding: 5,
+        borderRadius: 20,
+        backgroundColor : '#91E595',
+        marginLeft: 'auto',
+      },
+      task_complete_panel:{
+        width: 50,
+        height: 50,
+        paddingBottom: 10,
+      },
+      tasks_texts_actions:{
+        fontSize: 20,
+        fontFamily: 'PoiretOne',
+        fontWeight: 'bold',
+        letterSpacing: 1.5,
       }
   })
 
@@ -266,7 +347,7 @@ const myComponentTask = React.memo(function TaskList(props) {
               
             return (
               
-                <View  style={styles.container} key={item._id}>
+                <View  style={item.completed ? styles.container2 : styles.container1} key={item._id}>
 
                   
                     <View style={styles.cont_name_view}>
@@ -288,7 +369,6 @@ const myComponentTask = React.memo(function TaskList(props) {
                   justifyContent: 'space-around',
                   width: '100%',
                   marginTop: 7,
-                  
                 }}>
                     <View style={{
                       
@@ -302,6 +382,7 @@ const myComponentTask = React.memo(function TaskList(props) {
                       alignItems: 'center',
                       borderRadius: 20,
                       paddingBottom: 10,
+                      backgroundColor: '#fff',
                     }}>
                       <TouchableHighlight  onPress={() => {taskCompleted(item._id)} }>  
                         {
@@ -327,11 +408,8 @@ const myComponentTask = React.memo(function TaskList(props) {
     </View>
     </ScrollView >
     
-      
-      <TouchableHighlight underlayColor={"transparent"} style={styles.contTask} onPress={() => props.navigation.navigate('Crear Tarea') }>
-          <Image style={styles.newTask}  source={require("../../assets/button.png")} />
-      </TouchableHighlight>
-      
+      <Panel props={props} url="Crear Tarea" state={state._tasksState}/>
+    
       
     
     </>
@@ -342,3 +420,25 @@ const myComponentTask = React.memo(function TaskList(props) {
 
 
 export default myComponentTask
+
+
+{/* <View style={styles.cont_actions_buttons}>
+        <View style={styles.container_task_complete}>
+          <Image style={styles.task_complete_panel} source={require("../../assets/complete-panel.png")} />
+          <Text style={styles.tasks_texts_actions}>{
+            state._tasksState.filter(item => item.completed).length
+          }</Text>
+        </View>
+
+        <TouchableHighlight underlayColor={"transparent"} style={styles.contTask} onPress={() => props.navigation.navigate('Crear Tarea') }>
+          <Image style={styles.newTask}  source={require("../../assets/button.png")} />
+        </TouchableHighlight> 
+
+        <View style={styles.container_task_incomplete}>
+          <Text style={styles.tasks_texts_actions}>{
+            state._tasksState.filter(item => !item.completed).length
+          }</Text>
+          <Image style={styles.task_complete_panel} source={require("../../assets/pendiente-panel.png")} />
+        </View>
+      </View> */}
+      

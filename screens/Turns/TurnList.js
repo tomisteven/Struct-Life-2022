@@ -9,6 +9,7 @@ import {
 import moment from 'moment';
 import {es} from 'moment/locale/es';
 import confg from "../../congiruracionGlobal"
+import Panel from '../Panel';
 
 
 const myComponent = React.memo(function TurnList(props) {
@@ -96,14 +97,14 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     backgroundColor: '#fff',
+    
   },
   container_list:{
-    flex: 1,
+    width: '100%',
+    height: '100%',
     flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
-    
-
   },
   
 
@@ -370,9 +371,9 @@ const styles = StyleSheet.create({
     </View>
     }
     </ScrollView>
-    <TouchableHighlight underlayColor={"transparent"} style={styles.contTurn} onPress={() => props.navigation.navigate('crear turnos')}>
-      <Image style={styles.newTurn}  source={require("../../assets/buttonTurn.png")} />
-    </TouchableHighlight>
+
+    <Panel props={props} url="Crear Turno" state={state._turnState}/>
+   
 </>
 
     
@@ -390,47 +391,3 @@ export default myComponent;
 
 
 
-/* <View style={styles.container_list_items_item}>
-                    <Text style={styles.text_list_item_date}>{parseDate(item.Date)}</Text>
-                    
-                      <View style={styles.contTurnIcons}>
-                      {
-                            item.completed ?
-                            <Image style={styles.point} source={require("../assets/24-hours.png")} />
-                            :
-                            <Image style={styles.point} source={require("../assets/turnRED.png")} />
-                      }
-                      <Text style={styles.text_list_item}>{item.title}</Text>
-                      </View>
-                      <View style={styles.contTurnIcons}>
-                          <Image style={styles.point2} source={require("../assets/desccription.png")} />
-                          <Text style={styles.text_list_item}>{item.description}</Text>
-                      </View>
-                      <View style={styles.line}></View>
-                      </View>   
-                      <View style={styles.contTime}>
-                        <Text style={styles.textDate}>Turno Creado hace..</Text>  
-                        <TimeAgo style={styles.textDate} time={item.Date} /> 
-                      </View>
-                      <View style={styles.line}></View>
-                      <View style={styles.contTime}>
-                        <Text style={styles.textDate}>Tiempo para turno..</Text>  
-                        <TimeAgo style={styles.textDate} time={item.TurnDate} /> 
-                      </View>
-                      <View style={styles.line}></View>
-
-                      <View style={styles.contActions}>
-                          {
-                            item.completed ?
-                            <View style={styles.contButtoncomplete}>
-                                  <Text onPress={() => turnCompleted(item._id)} style={styles.textComplete} >Completado</Text>
-                            </View>
-                                  : 
-                            <View style={styles.contButtonIncomplete}>
-                                  <Text onPress={() => turnCompleted(item._id)} style={styles.textComplete}>Pendiente</Text>
-                            </View>
-                          }
-                        <View style={styles.contButtonEliminar}>
-                          <Text onPress={() => deleteTurn(item._id)} style={styles.buttonComplete}>  Eliminar  </Text>
-                        </View>
-                  </View> */
