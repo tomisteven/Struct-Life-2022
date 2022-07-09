@@ -5,8 +5,16 @@ import {
   useFonts
 } from '@expo-google-fonts/inter';
 
+import{
+  PoiretOne_400Regular
+} from "@expo-google-fonts/poiret-one"
+import{
+  Koulen_400Regular
+} from "@expo-google-fonts/koulen"
 import confg from "../../congiruracionGlobal"
 import { Alert } from 'react-native';
+import CardTask from './CardTask';
+
 
 
 const myComponentTask = React.memo(function TaskList(props) {
@@ -19,15 +27,18 @@ const myComponentTask = React.memo(function TaskList(props) {
     'Rampart': require('../../assets/RampartOne-Regular.ttf'),
   });
   
+
   let [fontsLoaded2] = useFonts({
-    'PoiretOne': require('../../assets/PoiretOne-Regular.ttf')
+    PoiretOne_400Regular,
+    Koulen_400Regular
   });
+
   
   const {url} = confg
   
   
   
-  const deleteUser = async (id) => {
+  const deleteTask = async (id) => {
     try {
       //alerta en ios
       Alert.alert(
@@ -107,6 +118,10 @@ const myComponentTask = React.memo(function TaskList(props) {
   
   useEffect(() => {
     memoTask()
+    if (!fontsLoaded2 && !fontsLoaded) {
+      return <Text>Cargando fuentes...</Text>;
+    }
+  
   } , [state])
 
   
@@ -175,13 +190,15 @@ const myComponentTask = React.memo(function TaskList(props) {
         width: '100%',
         marginLeft: 13,
         marginBottom: 7,
-        fontFamily: 'PoiretOne',
+        fontFamily: 'PoiretOne_400Regular',
       },
       textDate: {
-        fontSize: 18,
+        fontSize: 20,
         marginLeft: 13,
         marginBottom: 7,
         width: '100%',
+        fontFamily: 'Koulen_400Regular',
+        letterSpacing: 1,
       },
       cont_name_view: {
         flexDirection: 'row',
@@ -315,7 +332,7 @@ const myComponentTask = React.memo(function TaskList(props) {
       },
       tasks_texts_actions:{
         fontSize: 20,
-        fontFamily: 'PoiretOne',
+        fontFamily: 'PoiretOne_400Regular',
         fontWeight: 'bold',
         letterSpacing: 1.5,
       }
@@ -344,8 +361,30 @@ const myComponentTask = React.memo(function TaskList(props) {
           :
           
           (state._tasksState.map(item => {
-              
             return (
+            <CardTask completed={item.completed} _id={item._id} key={item._id} description={item.description} title={item.title} deleteTask={deleteTask} taskCompleted={taskCompleted} />
+            )
+        }))
+      } 
+    </View>
+    </ScrollView >
+    
+      <Panel props={props} url="Crear Tarea" state={state._tasksState}/>
+    
+      
+    
+    </>
+    
+  )
+})
+
+
+
+export default myComponentTask
+
+
+
+      /* return (
               
                 <View  style={item.completed ? styles.container2 : styles.container1} key={item._id}>
 
@@ -394,7 +433,7 @@ const myComponentTask = React.memo(function TaskList(props) {
                       </TouchableHighlight>
                     
                     <View>
-                      <TouchableHighlight  onPress={() => deleteUser(item._id) }>  
+                      <TouchableHighlight  onPress={() => deleteTask(item._id) }>  
                           <Image style={styles.dump}  source={require("../../assets/eliminar.png")} />
                       </TouchableHighlight>
                     </View>
@@ -402,43 +441,4 @@ const myComponentTask = React.memo(function TaskList(props) {
                 </View>
                 
                 </View>
-            )
-        }))
-      } 
-    </View>
-    </ScrollView >
-    
-      <Panel props={props} url="Crear Tarea" state={state._tasksState}/>
-    
-      
-    
-    </>
-    
-  )
-})
-
-
-
-export default myComponentTask
-
-
-{/* <View style={styles.cont_actions_buttons}>
-        <View style={styles.container_task_complete}>
-          <Image style={styles.task_complete_panel} source={require("../../assets/complete-panel.png")} />
-          <Text style={styles.tasks_texts_actions}>{
-            state._tasksState.filter(item => item.completed).length
-          }</Text>
-        </View>
-
-        <TouchableHighlight underlayColor={"transparent"} style={styles.contTask} onPress={() => props.navigation.navigate('Crear Tarea') }>
-          <Image style={styles.newTask}  source={require("../../assets/button.png")} />
-        </TouchableHighlight> 
-
-        <View style={styles.container_task_incomplete}>
-          <Text style={styles.tasks_texts_actions}>{
-            state._tasksState.filter(item => !item.completed).length
-          }</Text>
-          <Image style={styles.task_complete_panel} source={require("../../assets/pendiente-panel.png")} />
-        </View>
-      </View> */}
-      
+            ) */

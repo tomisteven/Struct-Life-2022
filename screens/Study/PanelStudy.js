@@ -1,23 +1,38 @@
 import React from 'react'
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight,ActivityIndicator } from 'react-native'
-
-import {
-    useFonts
-  } from '@expo-google-fonts/inter';
+import * as Progress from 'react-native-progress';
+import {Svg} from "react-native-svg"
 
   import{
-    PoiretOne_400Regular
+    PoiretOne_400Regular,
+    useFonts
   } from "@expo-google-fonts/poiret-one"
 
-export default function Panel({props ,url, state}) {
-  
-      let [fontsLoaded2] = useFonts({
+
+export default function PanelStudy({data, url}) {
+
+  const [suma_, setSuma] = useState(0)
+
+    let [fontsLoaded2] = useFonts({
         PoiretOne_400Regular
       });
 
-      if (!fontsLoaded2) {
+       if (!fontsLoaded2) {
         return <ActivityIndicator size="large" color="#FE7092" />;
       }
+
+
+      const sumaPromedio = () => {
+        let suma  = 0 
+        data.data.forEach(element => {
+          suma += element.porcentajeAvance
+        })
+        return Math.floor(suma / data.data.length) || 0
+      }
+
+      
+    
 
     const styles = StyleSheet.create({
         newTask: {
@@ -61,7 +76,7 @@ export default function Panel({props ,url, state}) {
             height: 70,
             padding: 5,
             borderRadius: 20,
-            backgroundColor : '#FF9393',
+            backgroundColor : '#FFB37C',
             marginRight: 'auto',
             
           }
@@ -74,7 +89,7 @@ export default function Panel({props ,url, state}) {
             height: 70,
             padding: 5,
             borderRadius: 20,
-            backgroundColor : '#91E595',
+            backgroundColor : '#B38ADD',
             marginLeft: 'auto',
           },
           task_complete_panel:{
@@ -83,32 +98,43 @@ export default function Panel({props ,url, state}) {
             paddingBottom: 10,
           },
           tasks_texts_actions:{
-            fontSize: 20,
+            fontSize: 23,
             fontFamily: 'PoiretOne_400Regular',
             fontWeight: 'bold',
             letterSpacing: 1.5,
+          },
+          text_circle:{
+            fontSize: 17,
+            position: 'absolute',
+            left: '40%',
+            fontFamily: 'PoiretOne_400Regular',
           }
     })
 
-  return (
+
+return (
     <View style={styles.cont_actions_buttons}>
         <View style={styles.container_task_complete}>
-          <Image style={styles.task_complete_panel} source={require("../assets/complete-panel.png")} />
+          <Image style={styles.task_complete_panel} source={require("../../assets/libro-panel.png")} />
           <Text style={styles.tasks_texts_actions}>{
-            state.filter(item => item.completed).length
+            data.data.length
           }</Text>
         </View>
 
         <TouchableHighlight underlayColor={"transparent"} style={styles.contTask} onPress={() => props.navigation.navigate(url) }>
-          <Image style={styles.newTask}  source={require("../assets/button.png")} />
+          <Image style={styles.newTask}  source={require("../../assets/button.png")} />
         </TouchableHighlight> 
 
         <View style={styles.container_task_incomplete}>
-          <Text style={styles.tasks_texts_actions}>{
-            state.filter(item => !item.completed).length
+            <Progress.Circle progress={sumaPromedio()/100} size={50} width="auto" height="auto"  animated={true} color="#000" ></Progress.Circle>
+          
+          <Text style={styles.text_circle}>{
+            sumaPromedio() + "%"
           }</Text>
-          <Image style={styles.task_complete_panel} source={require("../assets/pendiente-panel.png")} />
         </View>
       </View>
+        
+        
+    
   )
 }

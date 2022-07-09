@@ -10,6 +10,9 @@ import Inicio from './screens/Inicio';
 import TurnList from './screens/Turns/TurnList';
 import TaskList from './screens/Tasks/TaskList';
 import CreateIdea from './screens/Ideas/CreateIdea';
+import IdeasList from './screens/Ideas/IdeasList';
+import ListCompras from './screens/Compras/ListCompras';
+import CreateStudy from './screens/Study/CreateStudy';
 
  
 
@@ -32,6 +35,10 @@ function RoutesCrud() {
       <Stack.Screen name="crear turnos"  style={styles.container} options={{
           headerShown: false,
       }}  component={CreateTurns} />
+
+      <Stack.Screen name="crear estudio"  style={styles.container} options={{
+          headerShown: false,
+      }}  component={CreateStudy} />
       
       <Stack.Screen name="crear idea"  style={styles.container} options={{
           headerShown: false,
@@ -45,6 +52,12 @@ function RoutesCrud() {
           headerShown: false,
       }}  component={StudyList} />
 
+      <Stack.Screen name="lista de ideas"  style={styles.container} options={{
+                headerShown: false,
+      }}  component={IdeasList} />
+      <Stack.Screen name="lista de compras"  style={styles.container} options={{
+                headerShown: false,
+      }}  component={ListCompras} />
 
     </Stack.Navigator>
   );

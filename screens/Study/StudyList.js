@@ -5,26 +5,27 @@ import React, {
 import { Text, View, StyleSheet ,TouchableHighlight, Image, ActivityIndicator, ScrollView} from 'react-native'
 import { Alert } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
-import {
-  useFonts
-} from '@expo-google-fonts/inter';
+import * as Progress from 'react-native-progress';
+import {Svg} from "react-native-svg"
 import confg from "../../congiruracionGlobal"
+import PanelStudy from './PanelStudy';
+import{
+  Koulen_400Regular,
+  useFonts
+} from "@expo-google-fonts/koulen"
 
-
-const myComponentStudy = React.memo(function StudyList(props) {
-  
-    const [fontsLoaded] = useFonts({ 
-      'Koulen' : require('../../assets/Koulen.ttf')
-    });
-
-
-
-  const {url} = confg
+export default function StudyList({data, _url}) {
 
     const [study, setStudy] = useState({
-        data: [],
+      data: [],
     })
+    const [suma_, setSuma] = useState(0)
     const [isLoading, setLoading] = useState(true)
+  
+    const {url} = confg
+    const [fontsLoaded] = useFonts({ 
+      Koulen_400Regular
+    });
 
     const getStudys = async () => {
       try {
@@ -41,12 +42,10 @@ const myComponentStudy = React.memo(function StudyList(props) {
           data: _data.studies,
         })
         setLoading(false)
-        return _data.studies
       } catch (error) {
         console.log(error);
       }
     }
-    const memoGetStudys = React.useMemo(() => getStudys, [study.data])
 
     const deleteStudy = async (id) => {
       try {
@@ -83,7 +82,6 @@ const myComponentStudy = React.memo(function StudyList(props) {
       }
     }
 
-
     const editPorcent_5 = async (id, number) => {
       try {
         setLoading(true)
@@ -109,12 +107,19 @@ const myComponentStudy = React.memo(function StudyList(props) {
 
     }
 
+    const sumarPromedio = async () => {
+      let suma = 0;
+      study.data.forEach(element => {
+        suma += element.porcentajeAvance;
+      }
+      )
+      suma = Math.floor(suma / study.data.length);
+      setSuma(suma)
+    }
 
     useEffect(() => {
-      memoGetStudys()
-    }, [
-      study
-    ])
+     getStudys()
+    }, [])
 
 
     const styles = StyleSheet.create({
@@ -210,7 +215,7 @@ const myComponentStudy = React.memo(function StudyList(props) {
       item_study_materia:{
         fontSize: 17,
         textAlign: 'center',
-        fontFamily: 'Koulen',
+        fontFamily: 'Koulen_400Regular',
         fontWeight: "400",
 
       },
@@ -285,9 +290,6 @@ const myComponentStudy = React.memo(function StudyList(props) {
 
       <ScrollView >
 
-        
-
-
           <View style={ isLoading ? styles.loader : styles.cont_userlist}>
             {
               isLoading ? 
@@ -348,12 +350,31 @@ const myComponentStudy = React.memo(function StudyList(props) {
           </View>
 
       </ScrollView>
-
-
+       <PanelStudy data={study} _url="crear estudio"/> 
     </>
   )
-})
+}
 
-export default myComponentStudy;
+{/*  */}
 
-                     
+
+{/* <View style={styles.cont_actions_buttons}>
+  <View style={styles.container_task_complete}>
+    <Image style={styles.task_complete_panel} source={require("../../assets/libro-panel.png")} />
+    <Text style={styles.tasks_texts_actions}>{
+      study.data.length
+    }</Text>
+  </View>
+
+  <TouchableHighlight underlayColor={"transparent"} style={styles.contTask} onPress={() => props.navigation.navigate(url) }>
+    <Image style={styles.newTask}  source={require("../../assets/button.png")} />
+  </TouchableHighlight> 
+
+  <View style={styles.container_task_incomplete}>
+      <Progress.Circle progress={suma_/100} size={60} width="auto" height="auto"  animated={true} color="#000" ></Progress.Circle>
+    
+    <Text style={styles.text_circle}>{
+      suma_
+    }</Text>
+  </View>
+</View> */}

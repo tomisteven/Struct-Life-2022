@@ -186,23 +186,23 @@ export default function Inicio(props) {
                         <Image style={styles.image_arrow}  source={require("../assets/study.png")} />
                       </TouchableHighlight>
                 </View>
-                <View style={styles.container_icons}>
-                    <Text style={styles.text_userlist}>
-                        Metas
-                    </Text>
-                    <TouchableHighlight  underlayColor={"transparent"} onPress={() => {console.log("hola")} }>  
-                        <Image style={styles.image_arrow}  source={require("../assets/metas.png")} />
-                      </TouchableHighlight>
-                </View>
+                
                 <View style={styles.container_icons}>
                     <Text style={styles.text_userlist}>
                         Ideas
                     </Text>
-                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {console.log("hola")} }>  
+                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("lista de ideas")} }>  
                         <Image style={styles.image_arrow}  source={require("../assets/ideas.png")} />
                       </TouchableHighlight>
                 </View>
-
+                <View style={styles.container_icons}>
+                    <Text style={styles.text_userlist}>
+                        Compras
+                    </Text>
+                    <TouchableHighlight  underlayColor={"transparent"} onPress={() => {props.navigation.navigate("lista de compras")} }>  
+                        <Image style={styles.image_arrow}  source={require("../assets/metas.png")} />
+                      </TouchableHighlight>
+                </View>
             </View>
 
 
@@ -218,14 +218,14 @@ export default function Inicio(props) {
                     <Image style={styles.image_menu}  source={require("../assets/turn.png")} />
                 </TouchableHighlight>
 
-                <TouchableHighlight  underlayColor={"transparent"} onPress={() => {props.navigation.navigate("Configuración")} }>
+                <TouchableHighlight  underlayColor={"transparent"} onPress={() => {props.navigation.navigate("crear estudio")} }>
                     <Image style={styles.image_menu}  source={require("../assets/study.png")} />
-                </TouchableHighlight>
-                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Configuración")} }>
-                    <Image style={styles.image_menu}  source={require("../assets/metas.png")} />
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear idea")} }>
                     <Image style={styles.image_menu}  source={require("../assets/ideas.png")} />
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Configuración")} }>
+                    <Image style={styles.image_menu}  source={require("../assets/metas.png")} />
                 </TouchableHighlight>
             </View>
 

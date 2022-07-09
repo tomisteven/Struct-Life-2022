@@ -6,6 +6,14 @@ import {
   useFonts
 } from '@expo-google-fonts/inter';
 
+import {
+  Oswald_600SemiBold
+} from "@expo-google-fonts/oswald"
+
+import {
+  KottaOne_400Regular
+} from "@expo-google-fonts/kotta-one"
+
 import moment from 'moment';
 import {es} from 'moment/locale/es';
 import confg from "../../congiruracionGlobal"
@@ -13,14 +21,11 @@ import Panel from '../Panel';
 
 
 const myComponent = React.memo(function TurnList(props) {
-  let [fontsLoaded2] = useFonts({
-    'Osward': require('../../assets/Oswald-VariableFont_wght.ttf')
-    
+  const [fontsLoaded] = useFonts({
+    KottaOne_400Regular,
+    Oswald_600SemiBold
   });
-  const [fontsLoaded] = useFonts({ 
-    'Koulen' : require('../../assets/Koulen.ttf'),
-    'KottaOne': require('../../assets/KottaOne-Regular.ttf'),
-  });
+
 
   moment().locale(es);
 
@@ -29,11 +34,10 @@ const myComponent = React.memo(function TurnList(props) {
     loader: true
   })
   
-
-
   const {url} = confg
 
   const getTurns = async () => {
+    try{ 
     const turns = await fetch(`${url}/api/turns`, {
       method: 'GET',
       headers: {
@@ -45,10 +49,11 @@ const myComponent = React.memo(function TurnList(props) {
       _turnState: turnsJson,
       loader: false
     })
+    }catch(err){
+      console.log(err)
+    }
     
   } 
-
-  
   const parseDate = (date) => {
     let dateArray = date.split('T')
     dateArray = dateArray[0].split('-')
@@ -56,7 +61,6 @@ const myComponent = React.memo(function TurnList(props) {
     return dateArray.join('/')
 
   }
-
   const turnCompleted = async (id) => {
     const turn = await fetch(`${url}/api/turns/completeturn/${id}`, {
       method: 'PUT',
@@ -85,8 +89,6 @@ const myComponent = React.memo(function TurnList(props) {
     }
 
   }
-
-
 
 useEffect(() => { 
   getTurns()
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
   text_date_turn:{
     fontSize: 18,
     textAlign: "center",
-    fontFamily: "KottaOne",
+    fontFamily: "KottaOne_400Regular",
   },
   hour_info_turn:{
     backgroundColor: "#BCDBFF",
@@ -218,7 +220,7 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     fontSize: 16,
     textAlign: "center",
-    fontFamily: "KottaOne"
+    fontFamily: "KottaOne_400Regular"
   },
   body_container_turns:{
     display: "flex",
@@ -260,19 +262,19 @@ const styles = StyleSheet.create({
   },
   title_info_turn:{
     fontSize: 18,
-    fontFamily: "Osward", 
+    fontFamily: "Oswald_600SemiBold", 
     fontWeight: "bold",
     flexWrap: "nowrap",
   },
   title_info_turn2:{
     fontSize: 15,
-    fontFamily: "Osward", 
+    fontFamily: "Oswald_600SemiBold", 
     fontWeight: "bold",
     flexWrap: "nowrap",
   },
   description_info_turn:{
     fontSize: 18,
-    fontFamily: "KottaOne",
+    fontFamily: "KottaOne_400Regular",
     marginTop: 4,
   },
   button_complete_turn:{
@@ -301,7 +303,7 @@ const styles = StyleSheet.create({
   },
   text_complete_turn:{
     fontSize: 15,
-    fontFamily: "KottaOne",
+    fontFamily: "KottaOne_400Regular",
     color: "#fff",
     letterSpacing: 1,
   },
@@ -372,7 +374,7 @@ const styles = StyleSheet.create({
     }
     </ScrollView>
 
-    <Panel props={props} url="Crear Turno" state={state._turnState}/>
+    <Panel props={props} url="crear turnos" state={state._turnState}/>
    
 </>
 
