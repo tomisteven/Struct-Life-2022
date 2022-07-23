@@ -18,6 +18,7 @@ export default function ListCompras(props) {
 
   const [compras, setCompras] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [tamaño, setTamaño] = useState(0)
   const [items, setItems] = useState({
     product: '',
     cantidad: '',
@@ -36,6 +37,7 @@ export default function ListCompras(props) {
       
       setCompras(comprasJson)
       setIsLoading(false)
+      setTamaño(comprasJson.length)
     } catch (error) {
       console.log(error)
     }
@@ -373,7 +375,7 @@ export default function ListCompras(props) {
           }
           </View>
         </ScrollView>
-        <PanelIdea tamaño={"3"} margBottom={67} url="crear compra" props={props} />
+        <PanelIdea tamaño={tamaño} margBottom={67} url="crear compra" props={props} />
         </View>
       }
     </>
