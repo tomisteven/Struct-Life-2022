@@ -58,10 +58,7 @@ export default function CreateTasks(props) {
                     })
                 })
                 await task.json() 
-                
                 setIsLoading(false);
-                
-                
                 props.navigation.navigate('Lista de tareas')
 
                 
@@ -76,12 +73,9 @@ export default function CreateTasks(props) {
 
     }
     const clearInputs = () => {
-        setTurn({
-            ...turn,
-            title: "",
-            description: "",
-            TurnDate: "",
-            TurnTime: ""
+        setName({
+            title: '',
+            description: ''
         })
     }
 
@@ -234,7 +228,7 @@ export default function CreateTasks(props) {
     
     }) 
 
-    const image = "../../assets/backtask.jpg"
+    const image = "../../assets/taskback2.jpg"
 
   return (
     <View style={styles.container}>

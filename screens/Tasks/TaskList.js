@@ -17,10 +17,8 @@ import CardTask from './CardTask';
 
 
 
-const myComponentTask = React.memo(function TaskList(props) {
-  const [state, setState] = useState({
-    _tasksState: []
-  })
+export default function TaskList(props) {
+  const [state, setState] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   
   let [fontsLoaded] = useFonts({
@@ -60,6 +58,7 @@ const myComponentTask = React.memo(function TaskList(props) {
               }
             })
             await task.json()
+            getTasks()
             setTimeout(() => {
               setIsLoading(false)
             }, 500);
@@ -74,9 +73,8 @@ const myComponentTask = React.memo(function TaskList(props) {
       
     }
 
-    const getTasks = async () => {
+  const getTasks = async () => {
       try {
-       
         const task = await fetch(`${url}/api/tasks`, {
         method: 'GET',
         headers: {
@@ -85,9 +83,7 @@ const myComponentTask = React.memo(function TaskList(props) {
         }
       })
       const _data = await task.json()
-      setState({
-        _tasksState: _data
-      })
+      setState(_data)
       setIsLoading(false)
     }
       catch (error) {
@@ -95,7 +91,6 @@ const myComponentTask = React.memo(function TaskList(props) {
       }
     }
   
-  const memoTask = React.useMemo(() => getTasks, [state._tasksState])
   
   const taskCompleted = async (id) => {
     setIsLoading(true)
@@ -117,12 +112,8 @@ const myComponentTask = React.memo(function TaskList(props) {
 
   
   useEffect(() => {
-    memoTask()
-    if (!fontsLoaded2 && !fontsLoaded) {
-      return <Text>Cargando fuentes...</Text>;
-    }
-  
-  } , [state])
+    getTasks()
+  } , [])
 
   
 
@@ -360,7 +351,7 @@ const myComponentTask = React.memo(function TaskList(props) {
           </View>
           :
           
-          (state._tasksState.map(item => {
+          (state.map(item => {
             return (
             <CardTask completed={item.completed} _id={item._id} key={item._id} description={item.description} title={item.title} deleteTask={deleteTask} taskCompleted={taskCompleted} />
             )
@@ -369,76 +360,19 @@ const myComponentTask = React.memo(function TaskList(props) {
     </View>
     </ScrollView >
     
-      <Panel props={props} url="Crear Tarea" state={state._tasksState}/>
+      <Panel props={props} url="Crear Tarea" state={state}/>
     
       
     
     </>
     
   )
-})
+}
 
 
 
-export default myComponentTask
 
 
 
-      /* return (
-              
-                <View  style={item.completed ? styles.container2 : styles.container1} key={item._id}>
 
-                  
-                    <View style={styles.cont_name_view}>
-                      {
-                        item.completed ?
-                        <Image style={styles.point} source={require("../../assets/PointGREEN.png")} />
-                        :
-                        <Image style={styles.point} source={require("../../assets/pointsRED.png")} />
-                      }
-                      <Text style={styles.textDate}>{item.title}</Text>
-                    </View>
-                    <View style={styles.cont_name_view}>
-                      <Image style={styles.point} source={require("../../assets/arrow.png")} /><Text style={styles.textName}>{item.description}</Text>
-                    </View>
-                  
-
-                <View style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  width: '100%',
-                  marginTop: 7,
-                }}>
-                    <View style={{
-                      
-                      borderStyle: 'solid',
-                      borderColor: '#D6D6D6',
-                      borderWidth: 1,
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                      alignItems: 'center',
-                      borderRadius: 20,
-                      paddingBottom: 10,
-                      backgroundColor: '#fff',
-                    }}>
-                      <TouchableHighlight  onPress={() => {taskCompleted(item._id)} }>  
-                        {
-                          item.completed ?
-                          <Image style={styles.ok} source={require("../../assets/ok.png")} />
-                          :
-                          <Image style={styles.ok} source={require("../../assets/notOk.png")} />
-                        }
-                      </TouchableHighlight>
-                    
-                    <View>
-                      <TouchableHighlight  onPress={() => deleteTask(item._id) }>  
-                          <Image style={styles.dump}  source={require("../../assets/eliminar.png")} />
-                      </TouchableHighlight>
-                    </View>
-                    </View>
-                </View>
-                
-                </View>
-            ) */
+     

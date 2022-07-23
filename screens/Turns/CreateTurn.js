@@ -92,7 +92,7 @@ export default function CreateTurns(props) {
         const [isLoading, setIsLoading] = useState(false);
         
         
-        const image = "../../assets/backturns.jpg"
+        const image = "../../assets/backturn.jpg"
 
         
         const styles = StyleSheet.create({

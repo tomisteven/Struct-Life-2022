@@ -10,7 +10,7 @@ import {Svg} from "react-native-svg"
   } from "@expo-google-fonts/poiret-one"
 
 
-export default function PanelStudy({data, url}) {
+export default function PanelStudy({props, data, url}) {
 
   const [suma_, setSuma] = useState(0)
 

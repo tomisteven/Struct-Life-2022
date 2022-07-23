@@ -14,7 +14,8 @@ import{
   useFonts
 } from "@expo-google-fonts/koulen"
 
-export default function StudyList({data, _url}) {
+
+export default function StudyList(props) {
 
     const [study, setStudy] = useState({
       data: [],
@@ -39,7 +40,7 @@ export default function StudyList({data, _url}) {
         const _data = await study.json()
   
         setStudy({
-          data: _data.studies,
+          data: _data,
         })
         setLoading(false)
       } catch (error) {
@@ -350,7 +351,7 @@ export default function StudyList({data, _url}) {
           </View>
 
       </ScrollView>
-       <PanelStudy data={study} _url="crear estudio"/> 
+       <PanelStudy props={props} data={study} url="crear estudio"/> 
     </>
   )
 }
@@ -358,23 +359,3 @@ export default function StudyList({data, _url}) {
 {/*  */}
 
 
-{/* <View style={styles.cont_actions_buttons}>
-  <View style={styles.container_task_complete}>
-    <Image style={styles.task_complete_panel} source={require("../../assets/libro-panel.png")} />
-    <Text style={styles.tasks_texts_actions}>{
-      study.data.length
-    }</Text>
-  </View>
-
-  <TouchableHighlight underlayColor={"transparent"} style={styles.contTask} onPress={() => props.navigation.navigate(url) }>
-    <Image style={styles.newTask}  source={require("../../assets/button.png")} />
-  </TouchableHighlight> 
-
-  <View style={styles.container_task_incomplete}>
-      <Progress.Circle progress={suma_/100} size={60} width="auto" height="auto"  animated={true} color="#000" ></Progress.Circle>
-    
-    <Text style={styles.text_circle}>{
-      suma_
-    }</Text>
-  </View>
-</View> */}

@@ -14,21 +14,25 @@ import IdeasList from './screens/Ideas/IdeasList';
 import ListCompras from './screens/Compras/ListCompras';
 import CreateStudy from './screens/Study/CreateStudy';
 
- 
+import {getIdeas,getTasks,getTurns,getStudys} from "./peticiones"
+import CreateCompra from './screens/Compras/CreateCompras';
+
+
 
 function RoutesCrud() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="inicio" options={{
         headerShown: false
-      }} component={Inicio} />
+      }} component={Inicio}  />
       
       <Stack.Screen name="Lista de tareas" options={{
           headerShown: false,
       }}  style={styles.container_listatareas}  component={TaskList} />
 
 
-      <Stack.Screen name="Crear Tarea" options={{
+      
+       <Stack.Screen name="Crear Tarea" options={{
           headerShown: false,
       }} component={CreateTasks} /> 
 
@@ -39,6 +43,10 @@ function RoutesCrud() {
       <Stack.Screen name="crear estudio"  style={styles.container} options={{
           headerShown: false,
       }}  component={CreateStudy} />
+
+      <Stack.Screen name="crear compra"  style={styles.container} options={{
+          headerShown: false,
+      }}  component={CreateCompra} />
       
       <Stack.Screen name="crear idea"  style={styles.container} options={{
           headerShown: false,
@@ -57,7 +65,7 @@ function RoutesCrud() {
       }}  component={IdeasList} />
       <Stack.Screen name="lista de compras"  style={styles.container} options={{
                 headerShown: false,
-      }}  component={ListCompras} />
+      }}  component={ListCompras} /> 
 
     </Stack.Navigator>
   );
@@ -68,9 +76,15 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
+  getIdeas()
+  getTasks()
+  getTurns()
+  getStudys()
+
+
   return (
     <NavigationContainer>
-      <RoutesCrud/>
+      <RoutesCrud />
     </NavigationContainer>
   );
 }

@@ -5,7 +5,7 @@ import { StyleSheet, Text, View,ScrollView, TouchableHighlight, Image, ActivityI
 import {
   useFonts
 } from '@expo-google-fonts/inter';
-
+import { Alert } from 'react-native';
 import {
   Oswald_600SemiBold
 } from "@expo-google-fonts/oswald"
@@ -73,20 +73,45 @@ const myComponent = React.memo(function TurnList(props) {
       getTurns()
     }
   }
+  
   const deleteTurn = async (id) => {
-    setState({
-      ...state,
-      loader: true
-    })
-    const turn = await fetch(`${url}/api/turns/deleteturn/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
+    try {
+      //alerta en ios
+      Alert.alert(
+        'Eliminar Turno',
+        '¿Estas seguro de eliminar esta Turno?',
+        [
+          {
+            text: 'Cancelar',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Eliminar', onPress: async () => {
+            setState({
+              ...state,
+              loader: true
+            })
+            const turn = await fetch(`${url}/api/turns/deleteturn/${id}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            })
+            await turn.json()
+            setTimeout(() => {
+              getTurns()
+              
+            }, 1000);
+          }},
+          
+        ],
+        {cancelable: false},
+        );
+      } catch (error) {
+        console.log(error);
       }
-    })
-     if (turn.status === 200) {
-      getTurns()
-    }
+      
+    
 
   }
 
@@ -142,26 +167,16 @@ const styles = StyleSheet.create({
   ListaTurns:{
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    
     alignItems: 'center',
     justifyContent: 'center',
     margin: 5,
-    paddingTop: 20,
+    paddingTop: 5,
     marginBottom: 10,
     paddingBottom: 70,
-    width: "95%",
+    width: "100%",
     height: "auto",
     borderRadius: 22,
-    
-    shadowColor: "#000",
-
-    shadowOffset: {
-      width: 0.5,
-      height: 2,
-    },
-    shadowOpacity: 3.50,
-    shadowRadius: 4.50,
-    elevation: 3,
   },
 
   /* item de turno */
@@ -174,14 +189,14 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "auto",
     padding: 10,
-    shadowColor: "#000",
+    shadowColor: "#5D5D5D",
       shadowOffset: {
-        width: 0.3,
-        height: 2,
+        width: 0.1,
+        height: 1,
       },
-      shadowOpacity: 2.50,
+      shadowOpacity: 1.50,
         shadowRadius: 4.50,
-        elevation: 3,
+        elevation: 1,
   }
   ,
   titles_container_turns:{

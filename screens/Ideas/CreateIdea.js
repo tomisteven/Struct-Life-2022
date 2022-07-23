@@ -35,7 +35,7 @@ const CreateIdea = (props) => {
         })
             await _idea.json()
             alert("Idea creada")
-            props.navigation.navigate('Lista de turnos')
+            props.navigation.navigate('lista de ideas')
         
             
         } catch (error) {
@@ -50,7 +50,7 @@ const CreateIdea = (props) => {
         })
     }
 
-    const image = "../../assets/backidea.jpg"
+    const image = "../../assets/backidea2.jpg"
 
     const styles = StyleSheet.create({
         container : {
@@ -74,7 +74,7 @@ const CreateIdea = (props) => {
         },
         title_turns: {
             fontSize: 50,
-            color: '#fff',
+            color: '#000',
             fontFamily: 'Rampart',
         },
         cont_input_title: {

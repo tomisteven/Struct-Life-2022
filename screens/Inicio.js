@@ -1,23 +1,28 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLoading from "expo-app-loading";
-import { Text, View, StyleSheet ,TouchableHighlight, Image } from 'react-native'
+import { Text, View, StyleSheet ,TouchableHighlight, Image, ScrollView, ActivityIndicator } from 'react-native'
 import {
     useFonts
   } from '@expo-google-fonts/inter';
-  import LinearGradient from 'react-native-linear-gradient';
-export default function Inicio(props) {
+  import { LinearGradient } from 'expo-linear-gradient';
+import Notificaciones from './Notificaciones';
+import { useEffect } from 'react';
 
+import confg from "../congiruracionGlobal"
+
+export default function Inicio(props) {
 
     let [fontsLoaded] = useFonts({
         'Rampart': require('../assets/RampartOne-Regular.ttf')
-        
       });
 
-      if (!fontsLoaded) {
-        return <AppLoading/>;
-    }
-
       const styles = StyleSheet.create({
+        loader:{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: '40%'
+          },
 
         container: {
             flex: 1,
@@ -36,11 +41,10 @@ export default function Inicio(props) {
             
         },
         text_bold:{
-
             fontFamily: 'Rampart',
             fontSize: 60,
             fontWeight: 'bold',
-            color: "#FF95A1"
+            color: "#292929"
         },
         text_userlist:{
 
@@ -49,13 +53,14 @@ export default function Inicio(props) {
             fontSize: 30,
             textAlign: 'left',
             marginLeft: 30,
-            marginTop: 15,
+            marginTop: 10,
+            color: "#000"
             
         }
         ,
         image_arrow:{
-            marginTop: 22,
-            marginRight: 17,
+            marginTop: 15,
+            marginRight: 25,
             width: 40,
             height: 40,
             
@@ -66,8 +71,11 @@ export default function Inicio(props) {
             flexDirection: 'row',
             backgroundColor: '#fff',
             justifyContent: 'space-between',
-            margin: 10,
-            height: 10,
+            marginLeft: 10,
+            marginRight: 10,
+            marginTop: 1,
+            marginBottom: 1,
+            
             backgroundColor: "#fff",
             borderRadius: 20,
             shadowColor: "#000",
@@ -82,10 +90,12 @@ export default function Inicio(props) {
         },
         cont_userlist:{
             flex: 3,
-            backgroundColor: "#FFE2E2",
-            
-            padding: 10,
-            height: "60%",
+            backgroundColor: "#FFf",
+            paddingBottom: 10,
+            paddingLeft: 5,
+            paddingRight: 5,
+            paddingTop: 20,
+            height: "65%",
             width: "95%",
             borderRadius: 20,
             marginTop: 40,
@@ -122,33 +132,46 @@ export default function Inicio(props) {
             backgroundColor: '#fff',
             justifyContent: 'space-around',
             margin: 25,
-            width: "95%",
+            width: "90%",
             height: 70,
             padding: 10,
-            borderRadius: 50,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0.3,
-              height: 2,
-            },
-            shadowOpacity: 0.50,
-              shadowRadius: 4.50,
-              elevation: 3,
+            borderRadius: 30
         },
         text_nueva:{
             fontFamily: 'Rampart',
             fontSize: 30,
-            color: "#FF95A1",
+            color: "#000",
         },
-        linearGradient: {
-            flex: 1,
-            paddingLeft: 15,
-            paddingRight: 15,
-            borderRadius: 5
-          }
-    
+        button: {
+            padding: 15,
+            alignItems: 'center',
+            borderRadius: 5,
+            flex: 3
+            
+        },
+        container_icons2: {
+            flex: 3,
+            flexDirection: 'row',
+            backgroundColor: '#fff',
+            justifyContent: 'space-between',
+            margin: 10,
+            height: 10,
+            backgroundColor: "#fff",
+            borderRadius: 25,
+            
+
+        }
     
     }) 
+
+    
+    if(!fontsLoaded) {
+        return <AppLoading />;
+    }
+
+    
+    
+    
 
 
   return (
@@ -161,73 +184,160 @@ export default function Inicio(props) {
             </View>
             <View style={styles.cont_userlist}>
             
-                <View style={styles.container_icons}>
-                    <Text style={styles.text_userlist}>
-                        Tareas
-                    </Text>
-                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Lista de tareas")} }>  
-                        <Image style={styles.image_arrow}  source={require("../assets/arrow2.png")} />
-                      </TouchableHighlight>
+
+            <View style={{
+                flex: 1,
+                    width: "100%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0.5,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.70,
+                    shadowRadius: 4.70,
+                    elevation: 6
+                }}>
+                    <LinearGradient start={{x:0.8, y:1.5}}  colors={[  '#f4af8a', '#c07cd0']} style={styles.container_icons}>
+                                <Text style={styles.text_userlist}>
+                                    Tareas
+                                </Text>
+                                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Lista de tareas")} }>  
+                                    <Image style={styles.image_arrow}  source={require("../assets/arrow2.png")} />
+                                </TouchableHighlight>
+                    </LinearGradient>
                 </View>
-                
-                <View style={styles.container_icons}>
+                <Notificaciones color="red" req={"/api/tasks"}/>
+
+                <View style={{
+                flex: 1,
+                    width: "100%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0.5,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.70,
+                    shadowRadius: 4.70,
+                    elevation: 6,
+                }}>
+                <LinearGradient start={{x:0.8, y:1.5}}  colors={[  '#f4af8a', '#55b0df']} style={styles.container_icons}>
                     <Text style={styles.text_userlist}>
                         Turnos
                     </Text>
                     <TouchableHighlight underlayColor={"transparent"} onPress={() => {props.navigation.navigate("Lista de turnos")} }>  
                         <Image style={styles.image_arrow}  source={require("../assets/turn.png")} />
-                      </TouchableHighlight>
+                      </TouchableHighlight>   
+                      
+                </LinearGradient>
                 </View>
-                <View style={styles.container_icons}>
-                    <Text style={styles.text_userlist}>
-                        Estudios
-                    </Text>
-                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Lista de estudios")} }>  
-                        <Image style={styles.image_arrow}  source={require("../assets/study.png")} />
-                      </TouchableHighlight>
+                <Notificaciones color="red" req={"/api/turns"} />
+
+                <View style={{
+                flex: 1,
+                    width: "100%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0.5,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.70,
+                    shadowRadius: 4.70,
+                    elevation: 6,
+                }}>               
+                    <LinearGradient start={{x:0.8, y:1.5}}  colors={[  '#f4af8a', '#fecdcd']} style={styles.container_icons}>
+                        <Text style={styles.text_userlist}>
+                            Estudios
+                        </Text>
+                        <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Lista de estudios")} }>  
+                            <Image style={styles.image_arrow}  source={require("../assets/study.png")} />
+                        </TouchableHighlight>
+                    </LinearGradient>
+                </View> 
+                <Notificaciones color="#12BA26" req={"/api/studies"} />
+
+                <View style={{
+                flex: 1,
+                    width: "100%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0.5,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.70,
+                    shadowRadius: 4.70,
+                    elevation: 6,
+                }}>       
+                    <LinearGradient start={{x:0.9, y:0.7}}  colors={[  '#f4af8a', '#9ad08b']} style={styles.container_icons}>
+                        <Text style={styles.text_userlist}>
+                            Ideas
+                        </Text>
+                        <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("lista de ideas")} }>  
+                            <Image style={styles.image_arrow}  source={require("../assets/ideas.png")} />
+                        </TouchableHighlight>
+                    </LinearGradient>
                 </View>
-                
-                <View style={styles.container_icons}>
-                    <Text style={styles.text_userlist}>
-                        Ideas
-                    </Text>
-                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("lista de ideas")} }>  
-                        <Image style={styles.image_arrow}  source={require("../assets/ideas.png")} />
-                      </TouchableHighlight>
-                </View>
-                <View style={styles.container_icons}>
+                <Notificaciones color="#12BA26" req={"/api/ideas"} />
+
+                <View style={{
+                flex: 1,
+                    width: "100%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0.5,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.70,
+                    shadowRadius: 4.70,
+                    elevation: 6,
+                }}>       
+                <LinearGradient start={{x:0.8, y:1.1}}  colors={[  '#f4af8a', '#ffec70']} style={styles.container_icons}>
                     <Text style={styles.text_userlist}>
                         Compras
                     </Text>
                     <TouchableHighlight  underlayColor={"transparent"} onPress={() => {props.navigation.navigate("lista de compras")} }>  
                         <Image style={styles.image_arrow}  source={require("../assets/metas.png")} />
                       </TouchableHighlight>
+                </LinearGradient>
                 </View>
+            <Notificaciones color="#947BD3" req={"/api/compras"} />
+            
             </View>
 
 
                 <Text style={styles.textNewEntry}>
                     Agregar <Text style={styles.text_nueva}>Nueva..</Text>
                 </Text>
-            <View style={styles.cont_menu}>
-                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Crear Tarea")} }>
-                    <Image style={styles.image_menu}  source={require("../assets/arrow2.png")} />
-                </TouchableHighlight>
+                <View style={{
+                    width: "100%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0.5,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.70,
+                    shadowRadius: 4.70,
+                    elevation: 6,
+                }}>
+                <LinearGradient start={{x:0.8, y:0.2}}  colors={[   '#709bff', '#febebe']} style={styles.cont_menu}>
+                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Crear Tarea")} }>
+                        <Image style={styles.image_menu}  source={require("../assets/arrow2.png")} />
+                    </TouchableHighlight>
 
-                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear turnos")} }>
-                    <Image style={styles.image_menu}  source={require("../assets/turn.png")} />
-                </TouchableHighlight>
+                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear turnos")} }>
+                        <Image style={styles.image_menu}  source={require("../assets/turn.png")} />
+                    </TouchableHighlight>
 
-                <TouchableHighlight  underlayColor={"transparent"} onPress={() => {props.navigation.navigate("crear estudio")} }>
-                    <Image style={styles.image_menu}  source={require("../assets/study.png")} />
-                </TouchableHighlight>
-                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear idea")} }>
-                    <Image style={styles.image_menu}  source={require("../assets/ideas.png")} />
-                </TouchableHighlight>
-                <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("Configuración")} }>
-                    <Image style={styles.image_menu}  source={require("../assets/metas.png")} />
-                </TouchableHighlight>
-            </View>
+                    <TouchableHighlight  underlayColor={"transparent"} onPress={() => {props.navigation.navigate("crear estudio")} }>
+                        <Image style={styles.image_menu}  source={require("../assets/study.png")} />
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear idea")} }>
+                        <Image style={styles.image_menu}  source={require("../assets/ideas.png")} />
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor={"transparent"}  onPress={() => {props.navigation.navigate("crear compra")} }>
+                        <Image style={styles.image_menu}  source={require("../assets/metas.png")} />
+                    </TouchableHighlight>
+                </LinearGradient>
+                </View>
 
 
 

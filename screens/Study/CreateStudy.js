@@ -20,7 +20,7 @@ export default function CreateStudy(props) {
         Koulen_400Regular
       });
       
-      
+       
 
     const [states, setState] = useState({
         materia: '',
@@ -259,7 +259,7 @@ export default function CreateStudy(props) {
     
     }) 
     
-    const image = "../../assets/backstudy.jpg"
+    const image = "../../assets/567.jpg"
 
   return (
     <View style={styles.container}>
