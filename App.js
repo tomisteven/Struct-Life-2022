@@ -29,8 +29,6 @@ function RoutesCrud() {
       <Stack.Screen name="Lista de tareas" options={{
           headerShown: false,
       }}  style={styles.container_listatareas}  component={TaskList} />
-
-
       
        <Stack.Screen name="Crear Tarea" options={{
           headerShown: false,
